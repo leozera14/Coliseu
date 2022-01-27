@@ -2,10 +2,20 @@ import React from "react";
 //Components
 import { DrawerComponent } from "../Drawer";
 
-import { AppBar, Grid, CssBaseline, useMediaQuery, Box } from "@mui/material";
+import {
+  AppBar,
+  Grid,
+  CssBaseline,
+  useMediaQuery,
+  Box,
+  Typography,
+  Switch,
+} from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+
+import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
 
 //Images
 import Logo from "../../assets/logo.png";
@@ -27,7 +37,7 @@ const useStyles: any = makeStyles(() => ({
   },
   link: {
     textDecoration: "none",
-    color: "rgba(255,255,255,1)",
+    color: "#fff",
     transition: "all 200ms ease",
 
     "&:hover": {
@@ -37,9 +47,10 @@ const useStyles: any = makeStyles(() => ({
 }));
 
 export const Header = () => {
+  const { dark, changeThemeMode } = useThemeHook();
   const classes = useStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: "none" }}>
@@ -47,11 +58,25 @@ export const Header = () => {
       <Grid container alignItems="center" xs={12}>
         {isMobile ? (
           <>
-            <Grid item xs={6}>
+            <Grid
+              item
+              sx={{
+                position: "absolute",
+                left: 15,
+              }}
+            >
               <DrawerComponent />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Box className={classes.logoContainer}>
                 <img alt="SWINGAO" src={Logo} className={classes.logoImage} />
               </Box>
@@ -89,6 +114,18 @@ export const Header = () => {
                   Contato & Localização
                 </Link>
               </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={4}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Switch checked={dark} onChange={changeThemeMode} />
+              <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography>
             </Grid>
           </>
         )}

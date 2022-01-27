@@ -12,15 +12,23 @@ import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import { Scale } from "@mui/icons-material";
 
 const useStyles: any = makeStyles(() => ({
   link: {
     textDecoration: "none",
-    color: "blue",
-    fontSize: "20px",
+    color: "#fff",
+    transition: "all 200ms ease",
+    fontSize: "18px",
+    "&:hover": {
+      fontWeight: "600",
+    },
   },
   icon: {
-    color: "white",
+    color: "#fff",
+  },
+  drawerListItems: {
+    width: "250px",
   },
 }));
 
@@ -30,7 +38,7 @@ export const DrawerComponent = () => {
   return (
     <>
       <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
-        <List>
+        <List className={classes.drawerListItems}>
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
               <Link to="/" className={classes.link}>
@@ -69,7 +77,7 @@ export const DrawerComponent = () => {
         onClick={() => setOpenDrawer(!openDrawer)}
         className={classes.icon}
       >
-        <MenuIcon />
+        <MenuIcon fontSize="large" />
       </IconButton>
     </>
   );
