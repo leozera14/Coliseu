@@ -23,19 +23,19 @@ import Logo from "../../assets/logo.png";
 const theme = createTheme();
 
 const useStyles: any = makeStyles(() => ({
-  navlinks: {
+  wrapper: {
     display: "flex",
     justifyContent: "space-between",
+    maxHeight: 100,
+    maxWidth: props => props.isMobile ? "100%" : "85%",
+    margin: props => props.isMobile ? "0 20px" : "auto"
+  },
+  container: {
+    display: "flex",
+    gridGap: 16,
+    height: "100%",
+    flexWrap: "nowrap",
     alignItems: "center",
-    maxWidth: "auto",
-  },
-  logoContainer: {
-    maxHeight: "100px",
-    maxWidth: "150px",
-  },
-  logoImage: {
-    width: "100%",
-    height: "auto",
   },
   link: {
     textDecoration: "none",
@@ -44,153 +44,126 @@ const useStyles: any = makeStyles(() => ({
       fontWeight: "600",
     },
   },
+  themeToggle: {
+    alignSelf: "flex-end"
+  }
 }));
 
 export const Header = () => {
   const { dark, changeThemeMode } = useThemeHook();
-  const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const classes = useStyles({ isMobile });
 
   return (
-    <AppBar position="static" color="transparent" sx={{ boxShadow: "none" }} style={{ maxHeight: "100px" }}>
-      <CssBaseline />
-      <Grid container alignItems="center" xs={12}>
-        {isMobile ? (
-          <>
-            <Grid
-              item
-              sx={{
-                position: "absolute",
-                left: 15,
-              }}
-            >
+    <div className={classes.wrapper}>
+      
+      {isMobile ? (
+        <>
+          <div className={classes.container} style={{ justifyContent: "space-between", width: "100%" }}>
+
+            {/* <div> */}
               <DrawerComponent />
-            </Grid>
+            {/* </div> */}
 
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Box className={classes.logoContainer}>
-                <img alt="SWINGAO" src={Logo} className={classes.logoImage} />
-              </Box>
-            </Grid>
-          </>
-        ) : (
-          <>
-            <Grid item mr={6}>
-              <Box className={classes.logoContainer}>
-                <img alt="SWINGAO" src={Logo} className={classes.logoImage} />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Grid className={classes.navlinks}>
-                <Link
-                  to="/"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Inicio
-                  </Typography>
-                </Link>
+            <Box className={classes.logoContainer}>
+              <img alt="SWINGAO" height="60" src={Logo} className={classes.logoImage} />
+            </Box>
 
-                <Link
-                  to="/ambientes"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Ambientes
-                  </Typography>
-                </Link>
-
-                <Link
-                  to="/festas"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Festas
-                  </Typography>
-                </Link>
-
-                <Link
-                  to="/reservas"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Reservas
-                  </Typography>
-                </Link>
-
-                <Link
-                  to="/regras"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Regras
-                  </Typography>
-                </Link>
-
-                <Link
-                  to="/duvidas"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Dúvidas
-                  </Typography>
-                </Link>
-
-                <Link
-                  to="/contato_localizacao"
-                  className={classes.link}
-                  style={{
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
-                  }}
-                >
-                  <Typography component="p" className={classes.link}>
-                    Contato & Localização
-                  </Typography>
-                </Link>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className={classes.themeToggle}>
               <Switch checked={dark} onChange={changeThemeMode} />
               <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography>
-            </Grid>
-          </>
-        )}
-      </Grid>
-    </AppBar>
+            </div>
+
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={classes.container}>
+
+            <Box className={classes.logoContainer}>
+              <img alt="SWINGAO" height="60" src={Logo} className={classes.logoImage} />
+            </Box>
+
+            <Link
+              to="/"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Inicio
+              </Typography>
+            </Link>
+
+            <Link
+              to="/ambientes"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Ambientes
+              </Typography>
+            </Link>
+
+            <Link
+              to="/festas"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Festas
+              </Typography>
+            </Link>
+
+            <Link
+              to="/reservas"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Reservas
+              </Typography>
+            </Link>
+
+            <Link
+              to="/regras"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Regras
+              </Typography>
+            </Link>
+
+            <Link
+              to="/contato_localizacao"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Contato & Localização
+              </Typography>
+            </Link>
+            </div>
+
+            <div className={classes.themeToggle}>
+              <Switch checked={dark} onChange={changeThemeMode} />
+              <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography>
+            </div>
+        </>
+      )}
+    </div>
   );
 };

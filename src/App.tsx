@@ -11,6 +11,7 @@ const useStyles: any = makeStyles(() => ({
   },
 
   containerCenter: {
+    width: "100%",
     height: "100%",
     marginLeft: "auto",
     marginRight: "auto",
@@ -30,8 +31,8 @@ function App() {
               xs: "100%",
               sm: "100%",
               md: "100%",
-              lg: "85%",
-              xl: "85%",
+              lg: "100%",
+              xl: "100%",
             },
           }}
         >
