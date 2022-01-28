@@ -19,12 +19,9 @@ const useStyles: any = makeStyles(() => ({
   image: {
     width: "100%",
   },
-  containerFullHeight: {
-    height: "85%",
-  },
   container: {
     height: "calc(100vh - 185px)",
-  }
+  },
 }));
 
 export const Home = () => {
@@ -35,38 +32,36 @@ export const Home = () => {
       title: "Image 1",
       description: "This is a image",
       image: `${test1}`,
-      imageMobile : test2
+      imageMobile: test2,
     },
     {
       title: "Image 2",
       description: "This is a image 2",
       image: `${test2}`,
-      imageMobile : test1
+      imageMobile: test1,
     },
   ];
 
-  const { dark, changeThemeMode } = useThemeHook();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <>
       <Carousel
-        autoPlay={false}
+        autoPlay={true}
         stopAutoPlayOnHover={false}
         navButtonsAlwaysVisible={true}
       >
         {images.map((image, i) => (
-          <div
-            key={i}
-            className={classes.container}
-          >
+          <div key={i} className={classes.container}>
             <img
               src={isMobile ? image.imageMobile : image.image}
               className={classes.image}
             />
-            <p style={{ position: "absolute", top: 0}}>{image.description}</p>
-            <p style={{ position: "absolute", top: 20}}>{isMobile ? "mobile" : "desktop"}</p>
+            <p style={{ position: "absolute", top: 0 }}>{image.description}</p>
+            <p style={{ position: "absolute", top: 20 }}>
+              {isMobile ? "mobile" : "desktop"}
+            </p>
           </div>
         ))}
       </Carousel>
