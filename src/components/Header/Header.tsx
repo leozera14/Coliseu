@@ -78,7 +78,10 @@ export const Header = () => {
 
             <div className={classes.themeToggle}>
               <Switch checked={dark} onChange={changeThemeMode} />
-              <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography>
+              {/* <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography> */}
+              <div style={{ alignSelf: "center", height: "24px", marginLeft: "5px" }}>
+                { !dark ? <LightModeIcon/> : <NightlightIcon /> }
+              </div>
             </div>
 
           </div>

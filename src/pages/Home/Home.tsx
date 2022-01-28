@@ -39,12 +39,12 @@ export const Home = () => {
   ];
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <>
       <Carousel
-        autoPlay={true}
+        autoPlay={false}
         stopAutoPlayOnHover={false}
         navButtonsAlwaysVisible={true}
       >
