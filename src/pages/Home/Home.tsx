@@ -16,7 +16,7 @@ const useStyles: any = makeStyles(() => ({
     width: "100%",
   },
   containerFullHeight: {
-    height: "100%",
+    height: "85%",
   },
 }));
 
@@ -38,27 +38,24 @@ export const Home = () => {
 
   return (
     <>
-      <Grid className={classes.containerFullHeight}>
-        <Carousel
-          stopAutoPlayOnHover={false}
-          navButtonsAlwaysVisible={true}
-          className={classes.containerFullHeight}
-          indicatorContainerProps={{
-            style: {
-              margin: "0",
-              position: "absolute",
-              bottom: "10%",
-            },
-          }}
-        >
-          {images.map((image, i) => (
-            <Grid key={i} className={classes.containerFullHeight}>
-              <img src={image.image} className={classes.image} />
-              //{" "}
-            </Grid>
-          ))}
-        </Carousel>
-      </Grid>
+      <Carousel
+        stopAutoPlayOnHover={false}
+        navButtonsAlwaysVisible={true}
+        className={classes.containerFullHeight}
+        indicatorContainerProps={{
+          style: {
+            margin: "0",
+            position: "absolute",
+            bottom: "10%",
+          },
+        }}
+      >
+        {images.map((image, i) => (
+          <Grid key={i} className={classes.containerFullHeight}>
+            <img src={image.image} className={classes.image} />
+          </Grid>
+        ))}
+      </Carousel>
     </>
   );
 };

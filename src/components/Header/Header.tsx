@@ -12,13 +12,15 @@ import {
   Switch,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
 import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
 
 //Images
 import Logo from "../../assets/logo.png";
+
+const theme = createTheme();
 
 const useStyles: any = makeStyles(() => ({
   navlinks: {
@@ -37,9 +39,7 @@ const useStyles: any = makeStyles(() => ({
   },
   link: {
     textDecoration: "none",
-    color: "#fff",
     transition: "all 200ms ease",
-
     "&:hover": {
       fontWeight: "600",
     },
@@ -91,27 +91,88 @@ export const Header = () => {
             </Grid>
             <Grid item xs={6}>
               <Grid className={classes.navlinks}>
-                <Link color="secondary" to="/" className={classes.link}>
-                  Inicio
-                </Link>
-                <Link to="/about" className={classes.link}>
-                  Ambientes
-                </Link>
-                <Link to="/contact" className={classes.link}>
-                  Festas
-                </Link>
-                <Link to="/faq" className={classes.link}>
-                  Reservas
-                </Link>
-                <Link to="/faq" className={classes.link}>
-                  Regras
-                </Link>
-                <Link to="/faq" className={classes.link}>
-                  Dúvidas
+                <Link
+                  to="/"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Inicio
+                  </Typography>
                 </Link>
 
-                <Link to="/faq" className={classes.link}>
-                  Contato & Localização
+                <Link
+                  to="/ambientes"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Ambientes
+                  </Typography>
+                </Link>
+
+                <Link
+                  to="/festas"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Festas
+                  </Typography>
+                </Link>
+
+                <Link
+                  to="/reservas"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Reservas
+                  </Typography>
+                </Link>
+
+                <Link
+                  to="/regras"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Regras
+                  </Typography>
+                </Link>
+
+                <Link
+                  to="/duvidas"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Dúvidas
+                  </Typography>
+                </Link>
+
+                <Link
+                  to="/contato_localizacao"
+                  className={classes.link}
+                  style={{
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  }}
+                >
+                  <Typography component="p" className={classes.link}>
+                    Contato & Localização
+                  </Typography>
                 </Link>
               </Grid>
             </Grid>
