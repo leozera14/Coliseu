@@ -10,10 +10,14 @@ import {
   Box,
   Typography,
   Switch,
+  SvgIcon
 } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { useTheme, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+
+import LightModeIcon from '@mui/icons-material/LightMode';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 
 import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
 
@@ -27,7 +31,7 @@ const useStyles: any = makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
     maxHeight: 100,
-    maxWidth: props => props.isMobile ? "100%" : "85%",
+    maxWidth: props => props.isMobile ? "100%" : "95%",
     margin: props => props.isMobile ? "0 20px" : "auto"
   },
   container: {
@@ -45,7 +49,9 @@ const useStyles: any = makeStyles(() => ({
     },
   },
   themeToggle: {
-    alignSelf: "flex-end"
+    display: "flex",
+    alignSelf: "center",
+    flexWrap: "nowrap"
   }
 }));
 
@@ -160,7 +166,10 @@ export const Header = () => {
 
             <div className={classes.themeToggle}>
               <Switch checked={dark} onChange={changeThemeMode} />
-              <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography>
+              {/* <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography> */}
+              <div style={{ alignSelf: "center", height: "24px", marginLeft: "5px" }}>
+                { !dark ? <LightModeIcon/> : <NightlightIcon /> }
+              </div>
             </div>
         </>
       )}
