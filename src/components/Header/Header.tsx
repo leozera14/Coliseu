@@ -53,7 +53,7 @@ export const Header = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <AppBar position="static" color="transparent" sx={{ boxShadow: "none" }}>
+    <AppBar position="static" color="transparent" sx={{ boxShadow: "none" }} style={{ maxHeight: "100px" }}>
       <CssBaseline />
       <Grid container alignItems="center" xs={12}>
         {isMobile ? (
