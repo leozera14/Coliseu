@@ -1,3 +1,5 @@
+import { Box, Typography } from "@mui/material";
+
 import { ImagesList } from "../../components";
 
 import test1 from "../../assets/test1.gif";
@@ -52,8 +54,22 @@ export const Environments = () => {
 
   return (
     <>
-      <h1>Environments</h1>
-      <ImagesList images={images} />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{ margin: "5px 0 50px 0", fontSize: "30px", fontWeight: "500" }}
+        >
+          Os ambientes mais excitantes
+        </Typography>
+        <ImagesList images={images} />
+      </Box>
     </>
   );
 };

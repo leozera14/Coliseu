@@ -1,15 +1,10 @@
-import React from "react";
-
-import { Grid, Typography, Box, Paper, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 import Carousel from "react-material-ui-carousel";
 
 import { makeStyles } from "@material-ui/styles";
 
-import { useTheme, createTheme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
-
-import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
+import { useTheme } from "@mui/material/styles";
 
 // Images
 import test1 from "../../assets/test1.gif";
