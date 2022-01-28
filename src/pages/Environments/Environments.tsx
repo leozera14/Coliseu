@@ -64,7 +64,12 @@ export const Environments = () => {
       >
         <Typography
           variant="h1"
-          sx={{ margin: "5px 0 50px 0", fontSize: "30px", fontWeight: "500" }}
+          sx={{
+            margin: "5px 0 50px 0",
+            fontSize: "25px",
+            fontWeight: "500",
+            fontStyle: "italic",
+          }}
         >
           Os ambientes mais excitantes
         </Typography>
