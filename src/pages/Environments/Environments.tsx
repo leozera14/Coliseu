@@ -9,9 +9,9 @@ import test3 from "../../assets/test3.gif";
 
 const useStyles: any = makeStyles(() => ({
   container: {
-    height: "calc(100vh - 110px)",
+    // height: "calc(100vh - 110px)",
     padding: "32px 0",
-    overflowY: "scroll"
+    // overflowY: "scroll"
   },
 }));
 
