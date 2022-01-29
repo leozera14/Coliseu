@@ -10,6 +10,7 @@ const useStyles: any = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1em",
+    padding: "0 16px"
   },
   imageList: {
     width: "100%",
@@ -20,6 +21,12 @@ const useStyles: any = makeStyles(() => ({
     justifyContent: "center",
     width: "100%",
     height: "100%",
+  },
+  imageListItemDescription: {
+    lineHeight: "normal",
+    paddingTop: "8px",
+    overflow: "hidden",
+    height: "30px",
   },
   image: {
     height: "auto",
@@ -41,14 +48,15 @@ export const ImagesList = (props: any) => {
 
   return (
     <>
-      <Grid
+      {/* <Grid
         container
         xs={12}
         md={12}
         lg={12}
         xl={12}
         className={classes.container}
-      >
+      > */}
+      <div className={classes.container}>
         <ImageList
           cols={isMobile ? 1 : isLg ? 2 : isXl ? 3 : undefined}
           component={Grid}
@@ -56,17 +64,17 @@ export const ImagesList = (props: any) => {
           className={classes.imageList}
         >
           {images.map((images: any, i: number) => (
-            <Grid className={classes.centerContainer}>
+            // <Grid item={true} className={classes.centerContainer}>
               <ImageListItem
                 key={i}
-                sx={{
-                  maxWidth: {
-                    xs: "95%",
-                    md: "95%",
-                    lg: "50%",
-                    xl: "300px",
-                  },
-                }}
+                // sx={{
+                //   maxWidth: {
+                //     xs: "95%",
+                //     md: "95%",
+                //     lg: "50%",
+                //     xl: "300px",
+                //   },
+                // }}
                 className={classes.imageListItem}
               >
                 <img
@@ -75,11 +83,13 @@ export const ImagesList = (props: any) => {
                   loading="lazy"
                   className={classes.image}
                 />
+                <p className={classes.imageListItemDescription}>{images.title}</p>
               </ImageListItem>
-            </Grid>
+            // </Grid>
           ))}
         </ImageList>
-      </Grid>
+      </div>
+      {/* </Grid> */}
     </>
   );
 };

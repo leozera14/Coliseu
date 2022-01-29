@@ -4,6 +4,9 @@ import { Grid } from "@mui/material";
 
 import { makeStyles } from "@material-ui/styles";
 
+import { useTheme as useThemeHook } from "./hooks/theme/useTheme";
+
+
 const useStyles: any = makeStyles(() => ({
   containerFull: {
     width: "100%",
@@ -20,6 +23,7 @@ const useStyles: any = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
+  const { dark, changeThemeMode } = useThemeHook();
 
   return (
     <ThemeProvider>
@@ -36,7 +40,7 @@ function App() {
             },
           }}
         >
-          <Routes />
+          <Routes/>
         </Grid>
       </Grid>
     </ThemeProvider>

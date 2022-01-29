@@ -55,6 +55,7 @@ export const Environments = () => {
   return (
     <>
       <Box
+      style={{padding: "32px 0"}}
         sx={{
           display: "flex",
           flexDirection: "column",

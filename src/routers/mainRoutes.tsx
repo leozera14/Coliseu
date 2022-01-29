@@ -29,15 +29,17 @@ export const mainRoutes = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/ambientes" element={<Environments />} />
-          <Route path="/festas" element={<Parties />} />
-          <Route path="/reservas" element={<Reservations />} />
-          <Route path="/regras" element={<Rules />} />
-          <Route path="/duvidas" element={<Doubts />} />
-          <Route path="/contato_localizacao" element={<Contact />} />
-        </Routes>
+        <div style={{backgroundColor: dark ? "#262626" : "#ffffff"}}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/ambientes" element={<Environments />} />
+            <Route path="/festas" element={<Parties />} />
+            <Route path="/reservas" element={<Reservations />} />
+            <Route path="/regras" element={<Rules />} />
+            <Route path="/duvidas" element={<Doubts />} />
+            <Route path="/contato_localizacao" element={<Contact />} />
+          </Routes>
+        </div>
         <Footer />
       </ThemeProvider>
     </BrowserRouter>

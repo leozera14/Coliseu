@@ -31,8 +31,11 @@ const useStyles: any = makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
     maxHeight: 100,
-    maxWidth: props => props.isMobile ? "100%" : "95%",
-    margin: props => props.isMobile ? "0 20px" : "auto"
+    maxWidth: "100%",
+    // backgroundColor: theme.palette.mode === 'dark' ? "#161616" : "#f4f4f4",
+    padding: props => props.isMobile ? "0 20px" : "0 5%",
+    // maxWidth: props => props.isMobile ? "100%" : "95%",
+    // margin: props => props.isMobile ? "0 20px" : "auto"
   },
   container: {
     display: "flex",
@@ -52,6 +55,9 @@ const useStyles: any = makeStyles(() => ({
     display: "flex",
     alignSelf: "center",
     flexWrap: "nowrap"
+  },
+  logoImage: {
+    verticalAlign: "-webkit-baseline-middle"
   }
 }));
 
@@ -62,7 +68,7 @@ export const Header = () => {
   const classes = useStyles({ isMobile });
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} style={{backgroundColor: dark ? "#161616" : "#f4f4f4"}}>
       
       {isMobile ? (
         <>

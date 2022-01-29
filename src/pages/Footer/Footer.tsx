@@ -1,10 +1,14 @@
 import { Grid, Typography } from "@mui/material";
+// import { useTheme } from "../hooks/theme/useTheme";
+import { useTheme } from "../../hooks/theme/useTheme";
 
 export const Footer = () => {
+  const { dark } = useTheme();
+
   return (
     <>
       <Grid
-        xs={12}
+        style={{backgroundColor: dark ? "#161616" : "#f4f4f4"}}
         sx={{
           display: "flex",
           width: "100%",
