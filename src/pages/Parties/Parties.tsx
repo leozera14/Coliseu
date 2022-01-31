@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/styles";
 const useStyles: any = makeStyles(() => ({
   container: {
-    height: "calc(100vh - 110px)",
-    padding: "32px 0",
-    overflowY: "scroll"
+    // height: "calc(100vh - 110px)",
+    padding: "32px 16px",
+    // overflowY: "scroll"
   },
 }));
 
