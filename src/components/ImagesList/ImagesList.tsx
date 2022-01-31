@@ -10,7 +10,7 @@ const useStyles: any = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1em",
-    padding: "0 16px"
+    padding: "0 16px",
   },
   imageList: {
     width: "100%",
@@ -48,14 +48,6 @@ export const ImagesList = (props: any) => {
 
   return (
     <>
-      {/* <Grid
-        container
-        xs={12}
-        md={12}
-        lg={12}
-        xl={12}
-        className={classes.container}
-      > */}
       <div className={classes.container}>
         <ImageList
           cols={isMobile ? 1 : isLg ? 2 : isXl ? 3 : undefined}
@@ -65,31 +57,18 @@ export const ImagesList = (props: any) => {
         >
           {images.map((images: any, i: number) => (
             // <Grid item={true} className={classes.centerContainer}>
-              <ImageListItem
-                key={i}
-                // sx={{
-                //   maxWidth: {
-                //     xs: "95%",
-                //     md: "95%",
-                //     lg: "50%",
-                //     xl: "300px",
-                //   },
-                // }}
-                className={classes.imageListItem}
-              >
-                <img
-                  src={images.image}
-                  alt={images.title}
-                  loading="lazy"
-                  className={classes.image}
-                />
-                <p className={classes.imageListItemDescription}>{images.title}</p>
-              </ImageListItem>
-            // </Grid>
+            <ImageListItem key={i} className={classes.imageListItem}>
+              <img
+                src={images.image}
+                alt={images.title}
+                loading="lazy"
+                className={classes.image}
+              />
+              <p className={classes.imageListItemDescription}>{images.title}</p>
+            </ImageListItem>
           ))}
         </ImageList>
       </div>
-      {/* </Grid> */}
     </>
   );
 };

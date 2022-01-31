@@ -7,12 +7,14 @@ import {
   Grid,
 } from "@mui/material";
 
-import { makeStyles } from "@material-ui/styles";
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-const useStyles: any = makeStyles(() => ({
+const useStyles: any = makeStyles((theme: any) => ({
   container: {
+    height: "calc(100vh - 110px)",
+    [theme.breakpoints.down("lg")]: {
+      height: "100%",
+    },
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -23,6 +25,9 @@ const useStyles: any = makeStyles(() => ({
     display: "flex",
     height: "80%",
     alignItems: "center",
+    [theme.breakpoints.down("lg")]: {
+      flexDirection: "column",
+    },
   },
   listItem: {
     display: "flex",
@@ -33,32 +38,39 @@ const useStyles: any = makeStyles(() => ({
     height: "250px",
     maxWidth: "100%",
     padding: "30px",
-    border: "1px solid rgba(255,255,255, .8)",
+    border:
+      theme.palette.mode === "dark"
+        ? "1px solid rgba(255,255,255, .8)"
+        : "1px solid rgba(0,0,0, .4)",
+
     boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
     borderRadius: 25,
+  },
+  infoDiv: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    [theme.breakpoints.down("lg")]: {
+      padding: "0 30px",
+    },
+  },
+  infoList: {
+    listStyle: "disc",
+    [theme.breakpoints.down("lg")]: {
+      listStyle: "none",
+    },
   },
 }));
 
 export const Parties = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
   return (
     <>
-      <Box
-        className={classes.container}
-        sx={{
-          height: isMobile ? "100%" : "calc(100vh - 110px)",
-        }}
-      >
+      <Box className={classes.container}>
         <Grid xs={12} sx={{ width: "100%" }}>
-          <List
-            dense={true}
-            className={classes.listContainer}
-            sx={{
-              flexDirection: isMobile ? "column" : "row",
-            }}
-          >
+          <List dense={true} className={classes.listContainer}>
             <ListItem className={classes.listItem}>
               <div className={classes.borderedDiv}>
                 <Typography
@@ -129,20 +141,8 @@ export const Parties = () => {
               </div>
             </ListItem>
           </List>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: isMobile ? "0 30px" : "none",
-            }}
-          >
-            <ul
-              style={{
-                listStyle: isMobile ? "none" : "disc",
-              }}
-            >
+          <div className={classes.infoDiv}>
+            <ul className={classes.infoList}>
               <li style={{ fontWeight: "bold" }}>
                 Os valores de entrada de solteiro e casais não dão direito a
                 consumo.
