@@ -19,6 +19,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles: any = makeStyles(() => ({
   container: {
     minHeight: "calc(100vh - 110px)",
+    maxHeight: "calc(100vh - 60px)",
     // padding: "32px 16px",
     // overflowY: "scroll"
   },
@@ -49,8 +50,8 @@ export const mainRoutes = () => {
             <Route path="/duvidas" element={<Doubts />} />
             <Route path="/contato_localizacao" element={<Contact />} />
           </Routes>
+          <Footer />
         </div>
-        <Footer />
       </ThemeProvider>
     </BrowserRouter>
   );
