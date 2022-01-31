@@ -20,7 +20,7 @@ const useStyles: any = makeStyles(() => ({
   container: {
     maxHeight: "calc(100vh - 60px)",
     // padding: "32px 16px",
-    overflowY: "scroll"
+    overflowY: "auto"
   },
   routeWrapper: {
     minHeight: "calc(100vh - 110px)",
