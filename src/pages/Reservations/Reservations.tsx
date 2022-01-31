@@ -1,7 +1,28 @@
+import { makeStyles } from "@material-ui/styles";
+
+import Mapa from "../../assets/mapa.png";
+
+const useStyles: any = makeStyles(() => ({
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  container: {
+    height: "calc(100vh - 160px)",
+  },
+}));
+
 export const Reservations = () => {
+  const classes = useStyles();
   return (
     <>
-      <h1>Reservations</h1>
+      <div className={classes.container}>
+        <img
+          src={Mapa}
+          alt="Mapa Coliseu Fantasy Club"
+          className={classes.image}
+        />
+      </div>
     </>
   );
 };
