@@ -24,8 +24,6 @@ import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
 //Images
 import Logo from "../../assets/logo.png";
 
-const theme = createTheme();
-
 const useStyles: any = makeStyles(() => ({
   wrapper: {
     display: "flex",

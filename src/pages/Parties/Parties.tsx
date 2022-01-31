@@ -13,19 +13,29 @@ import { useMediaQuery } from "@mui/material";
 
 const useStyles: any = makeStyles(() => ({
   container: {
-    height: "calc(100vh - 110px)",
-    padding: "32px 0",
-    overflowY: "scroll",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   listContainer: {
     display: "flex",
-    height: "100%",
+    height: "80%",
     alignItems: "center",
   },
   listItem: {
     display: "flex",
     flexDirection: "column",
+  },
+  borderedDiv: {
+    width: "400px",
+    height: "250px",
+    maxWidth: "100%",
+    padding: "30px",
+    border: "1px solid rgba(255,255,255, .8)",
+    boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+    borderRadius: 25,
   },
 }));
 
@@ -38,10 +48,7 @@ export const Parties = () => {
       <Box
         className={classes.container}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
+          height: isMobile ? "100%" : "calc(100vh - 110px)",
         }}
       >
         <Grid xs={12} sx={{ width: "100%" }}>
@@ -53,13 +60,18 @@ export const Parties = () => {
             }}
           >
             <ListItem className={classes.listItem}>
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "25px", fontWeight: 500, marginBottom: "25px" }}
-              >
-                CASAL
-              </Typography>
-              <div>
+              <div className={classes.borderedDiv}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontSize: "25px",
+                    fontWeight: 500,
+                    marginBottom: "25px",
+                  }}
+                >
+                  CASAL
+                </Typography>
+
                 <Typography component="p">
                   <b>Sexta: </b>R$ 50,00.
                 </Typography>
@@ -73,13 +85,18 @@ export const Parties = () => {
             </ListItem>
 
             <ListItem className={classes.listItem}>
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "25px", fontWeight: 500, marginBottom: "25px" }}
-              >
-                SOLTEIRO
-              </Typography>
-              <div>
+              <div className={classes.borderedDiv}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontSize: "25px",
+                    fontWeight: 500,
+                    marginBottom: "25px",
+                  }}
+                >
+                  SOLTEIRO
+                </Typography>
+
                 <Typography component="p">
                   <b>Sexta: </b>R$ 100,00.
                 </Typography>
@@ -94,19 +111,47 @@ export const Parties = () => {
             </ListItem>
 
             <ListItem className={classes.listItem}>
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "25px", fontWeight: 500, marginBottom: "25px" }}
-              >
-                SOLTEIRA
-              </Typography>
-              <div>
+              <div className={classes.borderedDiv}>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontSize: "25px",
+                    fontWeight: 500,
+                    marginBottom: "25px",
+                  }}
+                >
+                  SOLTEIRA
+                </Typography>
+
                 <Typography component="p">
                   Entrada R$ 20,00 consumível.
                 </Typography>
               </div>
             </ListItem>
           </List>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: isMobile ? "0 30px" : "none",
+            }}
+          >
+            <ul
+              style={{
+                listStyle: isMobile ? "none" : "disc",
+              }}
+            >
+              <li style={{ fontWeight: "bold" }}>
+                Os valores de entrada de solteiro e casais não dão direito a
+                consumo.
+              </li>
+              <li style={{ marginTop: "15px", fontWeight: "bold" }}>
+                Festas especiais estão sujeitas a valores diferenciados.
+              </li>
+            </ul>
+          </div>
         </Grid>
       </Box>
     </>
