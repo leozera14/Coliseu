@@ -19,6 +19,7 @@ const useStyles: any = makeStyles((theme: any) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    padding: "32px 16px",
   },
 
   listContainer: {

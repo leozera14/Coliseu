@@ -8,16 +8,23 @@ import {
   ListItem,
 } from "@mui/material";
 
+import { makeStyles } from "@mui/styles";
+
+const useStyles: any = makeStyles(() => ({
+  container: {
+    padding: "32px 16px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+}));
+
 export const Rules = () => {
+  const classes = useStyles();
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className={classes.container}>
       <Typography
         variant="h1"
         sx={{
@@ -72,6 +79,6 @@ export const Rules = () => {
           </ListItem>
         </List>
       </Grid>
-    </Box>
+    </div>
   );
 };

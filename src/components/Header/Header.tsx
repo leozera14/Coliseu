@@ -28,7 +28,7 @@ const useStyles: any = makeStyles((theme: any) => ({
   },
   container: {
     display: "flex",
-    gridGap: 16,
+    gridGap: 25,
     height: "100%",
     flexWrap: "nowrap",
     alignItems: "center",
@@ -142,7 +142,7 @@ export const Header = () => {
 
             <Link to="/contato_localizacao" className={classes.link}>
               <Typography component="p" className={classes.link}>
-                Contato & Localização
+                Contato
               </Typography>
             </Link>
           </div>
