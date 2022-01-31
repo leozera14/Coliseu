@@ -18,11 +18,13 @@ import { Header } from "../components";
 import { makeStyles } from "@material-ui/styles";
 const useStyles: any = makeStyles(() => ({
   container: {
-    minHeight: "calc(100vh - 110px)",
     maxHeight: "calc(100vh - 60px)",
     // padding: "32px 16px",
-    // overflowY: "scroll"
+    overflowY: "scroll"
   },
+  routeWrapper: {
+    minHeight: "calc(100vh - 110px)",
+  }
 }));
 
 export const mainRoutes = () => {
@@ -41,15 +43,17 @@ export const mainRoutes = () => {
         <CssBaseline />
         <Header />
         <div className={classes.container} style={{backgroundColor: dark ? "#262626" : "#ffffff"}}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/ambientes" element={<Environments />} />
-            <Route path="/festas" element={<Parties />} />
-            <Route path="/reservas" element={<Reservations />} />
-            <Route path="/regras" element={<Rules />} />
-            <Route path="/duvidas" element={<Doubts />} />
-            <Route path="/contato_localizacao" element={<Contact />} />
-          </Routes>
+          <div className={classes.routeWrapper}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/ambientes" element={<Environments />} />
+              <Route path="/festas" element={<Parties />} />
+              <Route path="/reservas" element={<Reservations />} />
+              <Route path="/regras" element={<Rules />} />
+              <Route path="/duvidas" element={<Doubts />} />
+              <Route path="/contato_localizacao" element={<Contact />} />
+            </Routes>
+          </div>
           <Footer />
         </div>
       </ThemeProvider>
