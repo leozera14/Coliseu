@@ -10,14 +10,14 @@ import {
   Box,
   Typography,
   Switch,
-  SvgIcon
+  SvgIcon,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { useTheme, createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
-import LightModeIcon from '@mui/icons-material/LightMode';
-import NightlightIcon from '@mui/icons-material/Nightlight';
+import LightModeIcon from "@mui/icons-material/LightMode";
+import NightlightIcon from "@mui/icons-material/Nightlight";
 
 import { useTheme as useThemeHook } from "../../hooks/theme/useTheme";
 
@@ -33,7 +33,7 @@ const useStyles: any = makeStyles(() => ({
     maxHeight: 100,
     maxWidth: "100%",
     // backgroundColor: theme.palette.mode === 'dark' ? "#161616" : "#f4f4f4",
-    padding: props => props.isMobile ? "0 20px" : "0 5%",
+    padding: (props: any) => (props.isMobile ? "0 20px" : "0 5%"),
     // maxWidth: props => props.isMobile ? "100%" : "95%",
     // margin: props => props.isMobile ? "0 20px" : "auto"
   },
@@ -54,11 +54,11 @@ const useStyles: any = makeStyles(() => ({
   themeToggle: {
     display: "flex",
     alignSelf: "center",
-    flexWrap: "nowrap"
+    flexWrap: "nowrap",
   },
   logoImage: {
-    verticalAlign: "-webkit-baseline-middle"
-  }
+    verticalAlign: "-webkit-baseline-middle",
+  },
 }));
 
 export const Header = () => {
@@ -68,36 +68,54 @@ export const Header = () => {
   const classes = useStyles({ isMobile });
 
   return (
-    <div className={classes.wrapper} style={{backgroundColor: dark ? "#161616" : "#f4f4f4"}}>
-      
+    <div
+      className={classes.wrapper}
+      style={{ backgroundColor: dark ? "#161616" : "#f4f4f4" }}
+    >
       {isMobile ? (
         <>
-          <div className={classes.container} style={{ justifyContent: "space-between", width: "100%" }}>
-
+          <div
+            className={classes.container}
+            style={{ justifyContent: "space-between", width: "100%" }}
+          >
             {/* <div> */}
-              <DrawerComponent />
+            <DrawerComponent />
             {/* </div> */}
 
             <Box className={classes.logoContainer}>
-              <img alt="SWINGAO" height="60" src={Logo} className={classes.logoImage} />
+              <img
+                alt="SWINGAO"
+                height="60"
+                src={Logo}
+                className={classes.logoImage}
+              />
             </Box>
 
             <div className={classes.themeToggle}>
               <Switch checked={dark} onChange={changeThemeMode} />
               {/* <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography> */}
-              <div style={{ alignSelf: "center", height: "24px", marginLeft: "5px" }}>
-                { !dark ? <LightModeIcon/> : <NightlightIcon /> }
+              <div
+                style={{
+                  alignSelf: "center",
+                  height: "24px",
+                  marginLeft: "5px",
+                }}
+              >
+                {!dark ? <LightModeIcon /> : <NightlightIcon />}
               </div>
             </div>
-
           </div>
         </>
       ) : (
         <>
           <div className={classes.container}>
-
             <Box className={classes.logoContainer}>
-              <img alt="SWINGAO" height="60" src={Logo} className={classes.logoImage} />
+              <img
+                alt="SWINGAO"
+                height="60"
+                src={Logo}
+                className={classes.logoImage}
+              />
             </Box>
 
             <Link
@@ -161,6 +179,18 @@ export const Header = () => {
             </Link>
 
             <Link
+              to="/duvidas"
+              className={classes.link}
+              style={{
+                color: theme.palette.mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              <Typography component="p" className={classes.link}>
+                Dúvidas
+              </Typography>
+            </Link>
+
+            <Link
               to="/contato_localizacao"
               className={classes.link}
               style={{
@@ -171,15 +201,17 @@ export const Header = () => {
                 Contato & Localização
               </Typography>
             </Link>
-            </div>
+          </div>
 
-            <div className={classes.themeToggle}>
-              <Switch checked={dark} onChange={changeThemeMode} />
-              {/* <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography> */}
-              <div style={{ alignSelf: "center", height: "24px", marginLeft: "5px" }}>
-                { !dark ? <LightModeIcon/> : <NightlightIcon /> }
-              </div>
+          <div className={classes.themeToggle}>
+            <Switch checked={dark} onChange={changeThemeMode} />
+            {/* <Typography>{!dark ? "Light Mode" : "Dark mode"}</Typography> */}
+            <div
+              style={{ alignSelf: "center", height: "24px", marginLeft: "5px" }}
+            >
+              {!dark ? <LightModeIcon /> : <NightlightIcon />}
             </div>
+          </div>
         </>
       )}
     </div>

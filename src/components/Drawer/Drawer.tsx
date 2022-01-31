@@ -6,13 +6,14 @@ import {
   List,
   ListItem,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 
 import { Link } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { Scale } from "@mui/icons-material";
 
 const useStyles: any = makeStyles(() => ({
   link: {
@@ -34,6 +35,7 @@ const useStyles: any = makeStyles(() => ({
 
 export const DrawerComponent = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState(false);
   return (
     <>
@@ -41,36 +43,115 @@ export const DrawerComponent = () => {
         <List className={classes.drawerListItems}>
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/" className={classes.link}>
-                Home
+              <Link
+                to="/"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Inicio
+                </Typography>
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/about" className={classes.link}>
-                About
+              <Link
+                to="/ambientes"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Ambientes
+                </Typography>
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/contact" className={classes.link}>
-                Contact
+              <Link
+                to="/festas"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Festas
+                </Typography>
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/about" className={classes.link}>
-                Faq
+              <Link
+                to="/reservas"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Reservas
+                </Typography>
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link
+                to="/regras"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Regras
+                </Typography>
+              </Link>
+            </ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link
+                to="/duvidas"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Dúvidas
+                </Typography>
+              </Link>
+            </ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link
+                to="/contato_localizacao"
+                className={classes.link}
+                style={{
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                }}
+              >
+                <Typography component="p" className={classes.link}>
+                  Contato & Localização
+                </Typography>
+              </Link>
+            </ListItemText>
+          </ListItem>
         </List>
       </Drawer>
       <IconButton
