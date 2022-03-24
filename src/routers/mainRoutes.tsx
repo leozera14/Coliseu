@@ -9,6 +9,7 @@ import {
   Rules,
   Contact,
   Footer,
+  Admin
 } from "../pages/index";
 import { useTheme } from "../hooks/theme/useTheme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -46,6 +47,7 @@ export const mainRoutes = () => {
           <div className={classes.routeWrapper}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/ambientes" element={<Environments />} />
               <Route path="/festas" element={<Parties />} />
               <Route path="/reservas" element={<Reservations />} />
