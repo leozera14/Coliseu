@@ -9,7 +9,8 @@ import {
   Rules,
   Contact,
   Footer,
-  Admin
+  Admin,
+  NewEvents,
 } from "../pages/index";
 import { useTheme } from "../hooks/theme/useTheme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -21,11 +22,11 @@ const useStyles: any = makeStyles(() => ({
   container: {
     maxHeight: "calc(100vh - 60px)",
     // padding: "32px 16px",
-    overflowY: "auto"
+    overflowY: "auto",
   },
   routeWrapper: {
     minHeight: "calc(100vh - 110px)",
-  }
+  },
 }));
 
 export const mainRoutes = () => {
@@ -43,11 +44,15 @@ export const mainRoutes = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <div className={classes.container} style={{backgroundColor: dark ? "#262626" : "#ffffff"}}>
+        <div
+          className={classes.container}
+          style={{ backgroundColor: dark ? "#262626" : "#ffffff" }}
+        >
           <div className={classes.routeWrapper}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/newevent" element={<NewEvents />} />
               <Route path="/ambientes" element={<Environments />} />
               <Route path="/festas" element={<Parties />} />
               <Route path="/reservas" element={<Reservations />} />
