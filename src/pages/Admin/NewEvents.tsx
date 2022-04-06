@@ -81,6 +81,7 @@ export const NewEvents = () => {
   const classes = useStyles();
 
   const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
+  const [isDeletingImage, setIsDeletingImage] = useState<boolean>(false);
 
   const [previewImageSelectedWithUpload, setPreviewImageSelectedWithUpload] =
     useState<string>("");
@@ -88,11 +89,12 @@ export const NewEvents = () => {
     useState<string>("");
 
   const [imageId, setImageId] = useState<number>();
+  const [imgurImageHash, setImgurImageHash] = useState<string>("");
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmitForm = async (data: any) => {
@@ -115,9 +117,30 @@ export const NewEvents = () => {
     }
   };
 
-  const removeImage = () => {
-    setPreviewImageSelectedWithUpload("");
-    setFastPreviewImageSelected("");
+  const removeImage = async () => {
+    try {
+      setIsDeletingImage(true);
+
+      await api()
+        .delete(`/image/${imgurImageHash}`)
+        .then((res: any) => {
+          const { data } = res;
+
+          if (
+            res.status === 200 &&
+            data.message === "Imagem deletada com sucesso!"
+          ) {
+            setIsDeletingImage(false);
+            toast.success(data.message);
+            setPreviewImageSelectedWithUpload("");
+            setFastPreviewImageSelected("");
+          }
+        });
+    } catch (error) {
+      setIsDeletingImage(false);
+      toast.error("Erro ao deletar a imagem, tenta novamente...");
+      console.log(error);
+    }
   };
 
   const handleFile = async (fileAccepted?: any, fileRejected?: any) => {
@@ -157,9 +180,10 @@ export const NewEvents = () => {
           .then((res: any) => {
             const { data } = res;
 
-            if (res.status === 200 && data.image) {
+            if (res.status === 200 && data.image_link) {
               setIsUploadingImage(false);
-              setPreviewImageSelectedWithUpload(data.image);
+              setPreviewImageSelectedWithUpload(data.image_link);
+              setImgurImageHash(data.image_hash);
               setImageId(data.id);
               toast.success("Image upload successfully!");
             } else {
@@ -189,6 +213,8 @@ export const NewEvents = () => {
     maxSize: 10000000,
     onDrop,
   });
+
+  const disableButtons = isUploadingImage || isDeletingImage || isSubmitting;
 
   return (
     <div className={classes.container}>
@@ -254,23 +280,27 @@ export const NewEvents = () => {
                   src={fastPreviewImageSelected}
                 />
 
-                <Button onClick={removeImage}>Remove image</Button>
+                <Button onClick={removeImage} disabled={disableButtons}>
+                  Remove image
+                </Button>
               </>
             ) : (
               <>
                 <div>
-                  <input {...getInputProps()} />
+                  <input {...getInputProps()} disabled={disableButtons} />
                   <p>Drag files here</p>
                 </div>
 
                 <div>
-                  <Button onClick={open}>Upload image</Button>
+                  <Button onClick={open} disabled={disableButtons}>
+                    Upload image
+                  </Button>
                 </div>
               </>
             )}
           </div>
 
-          <Button variant="outlined" type="submit">
+          <Button variant="outlined" type="submit" disabled={disableButtons}>
             Criar
           </Button>
         </form>
