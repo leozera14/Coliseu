@@ -10,6 +10,9 @@ import { makeStyles } from "@mui/styles";
 
 import { toast, ToastContainer } from "react-toastify";
 
+import { api } from "../../services/api";
+import axios from "axios";
+
 const useStyles: any = makeStyles(() => ({
   container: {
     padding: "32px 16px",
@@ -84,15 +87,29 @@ export const NewEvents = () => {
   const [fastPreviewImageSelected, setFastPreviewImageSelected] =
     useState<string>("");
 
+  const [imageId, setImageId] = useState<number>();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmitForm = (data: any) => {
+  const onSubmitForm = async (data: any) => {
     try {
-      console.log(data);
+      const { eventName, eventDescription } = data;
+
+      const objectCreateEvent = {
+        title: eventName,
+        description: eventDescription,
+        image_id: imageId,
+      };
+
+      await api()
+        .post("/events/create", objectCreateEvent)
+        .then((res: any) => {
+          console.log(res);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -122,8 +139,6 @@ export const NewEvents = () => {
       }
 
       if (fileAccepted && fileAccepted[0]) {
-        console.log(fileAccepted);
-
         const file = fileAccepted[0];
         setFastPreviewImageSelected(URL.createObjectURL(file));
 
@@ -133,40 +148,25 @@ export const NewEvents = () => {
 
         setIsUploadingImage(true);
 
-        // await apiConnection()
-        //   .post(`/gifts/images`, imageFormData, {
-        //     headers: {
-        //       "Content-Type": "multipart/form-data",
-        //     },
-        //   })
-        //   .then((res) => {
-        //     const { data } = res;
+        await api()
+          .post("/image", imageFormData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res: any) => {
+            const { data } = res;
 
-        //     if (res.status === 200 && data.imageUrl) {
-        //       setPreviewImageSelectedWithUpload(data.imageUrl);
-
-        //       setIsUploadingImage(false);
-
-        //       toast({
-        //         title: "Image Upload",
-        //         description: "Image upload successfully!",
-        //         position: "top-right",
-        //         status: "success",
-        //         duration: 5000,
-        //         isClosable: true,
-        //       });
-        //     } else {
-        //       setIsUploadingImage(false);
-        //       toast({
-        //         title: "Image Upload",
-        //         description: "Image upload failed, try again...",
-        //         position: "top-right",
-        //         status: "success",
-        //         duration: 5000,
-        //         isClosable: true,
-        //       });
-        //     }
-        //   });
+            if (res.status === 200 && data.image) {
+              setIsUploadingImage(false);
+              setPreviewImageSelectedWithUpload(data.image);
+              setImageId(data.id);
+              toast.success("Image upload successfully!");
+            } else {
+              setIsUploadingImage(false);
+              toast.error("Image upload failed, try again...");
+            }
+          });
       }
     } catch (error) {
       setIsUploadingImage(false);
@@ -275,17 +275,6 @@ export const NewEvents = () => {
           </Button>
         </form>
       </div>
-
-      <ToastContainer
-        limit={4}
-        position="top-right"
-        autoClose={3500}
-        newestOnTop
-        hideProgressBar={false}
-        closeOnClick
-        draggable
-        pauseOnHover={false}
-      />
     </div>
   );
 };
