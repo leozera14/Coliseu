@@ -8,10 +8,11 @@ import { useDropzone } from "react-dropzone";
 
 import { makeStyles } from "@mui/styles";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { api } from "../../services/api";
-import axios from "axios";
+
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -94,54 +95,9 @@ export const NewEvents = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
-
-  const onSubmitForm = async (data: any) => {
-    try {
-      const { eventName, eventDescription } = data;
-
-      const objectCreateEvent = {
-        title: eventName,
-        description: eventDescription,
-        image_id: imageId,
-      };
-
-      await api()
-        .post("/events/create", objectCreateEvent)
-        .then((res: any) => {
-          console.log(res);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const removeImage = async () => {
-    try {
-      setIsDeletingImage(true);
-
-      await api()
-        .delete(`/image/${imgurImageHash}`)
-        .then((res: any) => {
-          const { data } = res;
-
-          if (
-            res.status === 200 &&
-            data.message === "Imagem deletada com sucesso!"
-          ) {
-            setIsDeletingImage(false);
-            toast.success(data.message);
-            setPreviewImageSelectedWithUpload("");
-            setFastPreviewImageSelected("");
-          }
-        });
-    } catch (error) {
-      setIsDeletingImage(false);
-      toast.error("Erro ao deletar a imagem, tenta novamente...");
-      console.log(error);
-    }
-  };
 
   const handleFile = async (fileAccepted?: any, fileRejected?: any) => {
     try {
@@ -214,6 +170,64 @@ export const NewEvents = () => {
     onDrop,
   });
 
+  const clearForm = () => {
+    setValue("eventName", "");
+    setValue("eventDescription", "");
+    setFastPreviewImageSelected("");
+    setPreviewImageSelectedWithUpload("");
+  };
+
+  const onSubmitForm = async (data: any) => {
+    try {
+      const { eventName, eventDescription } = data;
+
+      const objectCreateEvent = {
+        title: eventName,
+        description: eventDescription,
+        image_id: imageId,
+      };
+
+      await api()
+        .post("/events/create", objectCreateEvent)
+        .then((res: any) => {
+          const { data } = res;
+
+          if (res.status === 200) {
+            toast.success(data.message);
+            clearForm();
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeImage = async () => {
+    try {
+      setIsDeletingImage(true);
+
+      await api()
+        .delete(`/image/${imgurImageHash}`)
+        .then((res: any) => {
+          const { data } = res;
+
+          if (
+            res.status === 200 &&
+            data.message === "Imagem deletada com sucesso!"
+          ) {
+            setIsDeletingImage(false);
+            toast.success(data.message);
+            setPreviewImageSelectedWithUpload("");
+            setFastPreviewImageSelected("");
+          }
+        });
+    } catch (error) {
+      setIsDeletingImage(false);
+      toast.error("Erro ao deletar a imagem, tenta novamente...");
+      console.log(error);
+    }
+  };
+
   const disableButtons = isUploadingImage || isDeletingImage || isSubmitting;
 
   return (
@@ -265,11 +279,12 @@ export const NewEvents = () => {
               className: "dropzone",
             })}
           >
-            {isUploadingImage && !fastPreviewImageSelected ? (
-              <p>Carregano, porra...</p>
+            {isUploadingImage ||
+            (isDeletingImage && !fastPreviewImageSelected) ? (
+              <LoadingSpinner />
             ) : fastPreviewImageSelected ? (
               <>
-                {isUploadingImage && <p>Carregano, porra...</p>}
+                {isUploadingImage || (isDeletingImage && <LoadingSpinner />)}
 
                 <img
                   style={{
@@ -277,7 +292,11 @@ export const NewEvents = () => {
                     height: "200px",
                   }}
                   alt="Image uploaded"
-                  src={fastPreviewImageSelected}
+                  src={
+                    previewImageSelectedWithUpload
+                      ? previewImageSelectedWithUpload
+                      : fastPreviewImageSelected
+                  }
                 />
 
                 <Button onClick={removeImage} disabled={disableButtons}>
