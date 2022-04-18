@@ -1,8 +1,17 @@
+import {useState, useEffect} from 'react'
+import { Link } from "react-router-dom";
+
+import { api } from '../../services/api';
+
 import { Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/AddOutlined";
 
 import { makeStyles } from "@mui/styles";
-import { Link } from "react-router-dom";
+
+import { LoadingSpinner } from '../../components/LoadingSpinner';
+
+import {IEvents} from '../../types/index'
+import { toast } from 'react-toastify';
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -42,34 +51,45 @@ const useStyles: any = makeStyles(() => ({
     paddingTop: "16px",
     width: "100%",
     display: "flex",
-    flexDirection: "row-reverse",
+    justifyContent: "flex-end", 
     gap: "16px",
   },
 }));
 
-const mockEvents = [
-  {
-    id: "119960ed-6379-46a4-a214-7fb6c5b70806",
-    label: "Swingao bolado dos anao careca",
-    description:
-      "Swing de qualidade na melhor casa do brasil com 73 anões carecas e direito a uma carreirinha no pau do anão para cada convidado.",
-    imageLabel: "Anões do swing",
-    imageUrl:
-      "http://images7.memedroid.com/images/UPLOADED130/54f9c1ec91293.jpeg",
-  },
-  {
-    id: "119960ed-6379-46a4-a214-7fb6c5b70806",
-    label: "Swingao bolado dos anao careca",
-    description:
-      "Swing de qualidade na melhor casa do brasil com 73 anões carecas e direito a uma carreirinha no pau do anão para cada convidado.",
-    imageLabel: "Anões do swing",
-    imageUrl:
-      "http://images7.memedroid.com/images/UPLOADED130/54f9c1ec91293.jpeg",
-  },
-];
 
 export const Admin = () => {
+  const [events, setEvents] = useState<IEvents[]>([])
+  const [isLoadingEvents, setIsLoadingEvents] = useState<boolean | any>(false);
+
   const classes = useStyles();
+
+  const handleDeleteEvent = async (eventId: number) => {
+    try {
+      await api().delete(`/events/${eventId}`).then((response: any) => console.log(response))
+    } catch (error) {
+      toast.error('Erro ao deletar evento, tente novamente mais tarde.')
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    setIsLoadingEvents(true)
+
+    api().get("/events/list").then((response: any) => {
+
+      if(response.status === 200 && response.data) {
+        setIsLoadingEvents(false)
+
+        const {data} = response;
+
+        setEvents(data)
+      }
+      
+    }).catch((error: any) => {
+      console.log(error)
+      setIsLoadingEvents(false)
+    })
+  }, [])
 
   return (
     <div className={classes.container}>
@@ -97,13 +117,15 @@ export const Admin = () => {
       </div>
 
       <div className={classes.eventsContainer}>
-        {mockEvents.map((event) => (
-          <div className={classes.eventWrapper}>
-            <p className={classes.eventLabel}> {event.label} </p>
+        {isLoadingEvents && <LoadingSpinner />}
+        {!isLoadingEvents && events &&
+        events.map((event) => (
+          <div className={classes.eventWrapper} key={event.id}>
+            <p className={classes.eventLabel}> {event.title} </p>
             <img
               className={classes.eventImage}
-              src={event.imageUrl}
-              alt={event.imageLabel}
+              src={event.imgur_link}
+              alt={'Image'}
             />
             <p className={classes.eventDescription}> {event.description} </p>
             <div className={classes.eventActions}>
@@ -111,7 +133,7 @@ export const Admin = () => {
                 Editar
               </Button>
               <Button
-                onClick={() => console.log("Deletar!")}
+                onClick={() => handleDeleteEvent(event.id)}
                 variant="outlined"
                 color="error"
               >
@@ -119,7 +141,9 @@ export const Admin = () => {
               </Button>
             </div>
           </div>
-        ))}
+        ))
+        }
+        
       </div>
     </div>
   );

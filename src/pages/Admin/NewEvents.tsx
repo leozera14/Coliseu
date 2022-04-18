@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { Typography, Button } from "@mui/material";
 
 import { useForm } from "react-hook-form";
@@ -13,6 +15,8 @@ import { toast } from "react-toastify";
 import { api } from "../../services/api";
 
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+
+import { IImageImgur } from "../../types";
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -57,29 +61,10 @@ const useStyles: any = makeStyles(() => ({
   },
 }));
 
-const mockEvents = [
-  {
-    id: "119960ed-6379-46a4-a214-7fb6c5b70806",
-    label: "Swingao bolado dos anao careca",
-    description:
-      "Swing de qualidade na melhor casa do brasil com 73 anões carecas e direito a uma carreirinha no pau do anão para cada convidado.",
-    imageLabel: "Anões do swing",
-    imageUrl:
-      "http://images7.memedroid.com/images/UPLOADED130/54f9c1ec91293.jpeg",
-  },
-  {
-    id: "119960ed-6379-46a4-a214-7fb6c5b70806",
-    label: "Swingao bolado dos anao careca",
-    description:
-      "Swing de qualidade na melhor casa do brasil com 73 anões carecas e direito a uma carreirinha no pau do anão para cada convidado.",
-    imageLabel: "Anões do swing",
-    imageUrl:
-      "http://images7.memedroid.com/images/UPLOADED130/54f9c1ec91293.jpeg",
-  },
-];
-
 export const NewEvents = () => {
   const classes = useStyles();
+
+  const navigate = useNavigate();
 
   const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
   const [isDeletingImage, setIsDeletingImage] = useState<boolean>(false);
@@ -89,13 +74,13 @@ export const NewEvents = () => {
   const [fastPreviewImageSelected, setFastPreviewImageSelected] =
     useState<string>("");
 
-  const [imageId, setImageId] = useState<number>();
-  const [imgurImageHash, setImgurImageHash] = useState<string>("");
+  const [imgurImageInfos, setImgurImageInfos] = useState<IImageImgur | null >(null)
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -128,7 +113,7 @@ export const NewEvents = () => {
         setIsUploadingImage(true);
 
         await api()
-          .post("/image", imageFormData, {
+          .post("/image/upload", imageFormData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -138,9 +123,8 @@ export const NewEvents = () => {
 
             if (res.status === 200 && data.image_link) {
               setIsUploadingImage(false);
+              setImgurImageInfos(data)
               setPreviewImageSelectedWithUpload(data.image_link);
-              setImgurImageHash(data.image_hash);
-              setImageId(data.id);
               toast.success("Image upload successfully!");
             } else {
               setIsUploadingImage(false);
@@ -170,13 +154,6 @@ export const NewEvents = () => {
     onDrop,
   });
 
-  const clearForm = () => {
-    setValue("eventName", "");
-    setValue("eventDescription", "");
-    setFastPreviewImageSelected("");
-    setPreviewImageSelectedWithUpload("");
-  };
-
   const onSubmitForm = async (data: any) => {
     try {
       const { eventName, eventDescription } = data;
@@ -184,7 +161,7 @@ export const NewEvents = () => {
       const objectCreateEvent = {
         title: eventName,
         description: eventDescription,
-        image_id: imageId,
+        ...imgurImageInfos
       };
 
       await api()
@@ -194,7 +171,11 @@ export const NewEvents = () => {
 
           if (res.status === 200) {
             toast.success(data.message);
-            clearForm();
+
+            setTimeout(() => {
+              toast.success('Você será redirecionado!');
+              navigate('/admin')
+            }, 2000)
           }
         });
     } catch (error) {
@@ -207,7 +188,7 @@ export const NewEvents = () => {
       setIsDeletingImage(true);
 
       await api()
-        .delete(`/image/${imgurImageHash}`)
+        .delete(`/image/${imgurImageInfos?.image_hash}`)
         .then((res: any) => {
           const { data } = res;
 
@@ -219,6 +200,7 @@ export const NewEvents = () => {
             toast.success(data.message);
             setPreviewImageSelectedWithUpload("");
             setFastPreviewImageSelected("");
+            setImgurImageInfos(null)
           }
         });
     } catch (error) {
@@ -228,7 +210,13 @@ export const NewEvents = () => {
     }
   };
 
+  const title = watch('eventName');
+  const description = watch('eventDescription')
+
   const disableButtons = isUploadingImage || isDeletingImage || isSubmitting;
+
+  const canSubmit = Boolean(!disableButtons && title && description && fastPreviewImageSelected)
+
 
   return (
     <div className={classes.container}>
@@ -319,7 +307,7 @@ export const NewEvents = () => {
             )}
           </div>
 
-          <Button variant="outlined" type="submit" disabled={disableButtons}>
+          <Button variant="outlined" type="submit" disabled={!canSubmit}>
             Criar
           </Button>
         </form>
