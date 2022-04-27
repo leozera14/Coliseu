@@ -171,11 +171,7 @@ export const NewEvents = () => {
 
           if (res.status === 200) {
             toast.success(data.message);
-
-            setTimeout(() => {
-              toast.success('Você será redirecionado!');
-              navigate('/admin')
-            }, 2000)
+            navigate('/admin')
           }
         });
     } catch (error) {

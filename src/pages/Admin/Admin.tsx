@@ -63,16 +63,7 @@ export const Admin = () => {
 
   const classes = useStyles();
 
-  const handleDeleteEvent = async (eventId: number) => {
-    try {
-      await api().delete(`/events/${eventId}`).then((response: any) => console.log(response))
-    } catch (error) {
-      toast.error('Erro ao deletar evento, tente novamente mais tarde.')
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
+  const getEventList = () => {
     setIsLoadingEvents(true)
 
     api().get("/events/list").then((response: any) => {
@@ -89,6 +80,24 @@ export const Admin = () => {
       console.log(error)
       setIsLoadingEvents(false)
     })
+  }
+
+  const handleDeleteEvent = async (eventId: number) => {
+    try {
+      await api().delete(`/events/${eventId}`).then((response: any) => {
+        if(response.status === 200 && response.data.success === true) {
+          toast.success(response.data.message)
+        }
+        getEventList()
+      })
+    } catch (error) {
+      toast.error('Erro ao deletar evento, tente novamente mais tarde.')
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getEventList()
   }, [])
 
   return (
