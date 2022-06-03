@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { api } from '../../services/api';
 
@@ -61,6 +61,8 @@ export const Admin = () => {
   const [events, setEvents] = useState<IEvents[]>([])
   const [isLoadingEvents, setIsLoadingEvents] = useState<boolean | any>(false);
 
+  const navigate = useNavigate();
+
   const classes = useStyles();
 
   const getEventList = () => {
@@ -78,6 +80,7 @@ export const Admin = () => {
       
     }).catch((error: any) => {
       console.log(error)
+      toast.error(error)
       setIsLoadingEvents(false)
     })
   }
@@ -94,6 +97,10 @@ export const Admin = () => {
       toast.error('Erro ao deletar evento, tente novamente mais tarde.')
       console.log(error)
     }
+  }
+
+  const editEventById = (eventId: number) => {
+    navigate(`/admin/newevent/${eventId}`)
   }
 
   useEffect(() => {
@@ -138,7 +145,7 @@ export const Admin = () => {
             />
             <p className={classes.eventDescription}> {event.description} </p>
             <div className={classes.eventActions}>
-              <Button onClick={() => console.log("Editar!")} variant="outlined">
+              <Button onClick={() => editEventById(event.id)} variant="outlined">
                 Editar
               </Button>
               <Button
