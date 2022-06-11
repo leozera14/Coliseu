@@ -59,6 +59,18 @@ const useStyles: any = makeStyles(() => ({
     flexDirection: "row-reverse",
     gap: "16px",
   },
+  formItemWrapper: {
+    display: "flex",
+    flexWrap: "wrap",
+    marginBottom: "16px"
+  },
+  formItemLabel: {
+    width: "100%",
+  },
+  formItemInput: {
+    width: "100%",
+    minHeight: "36px"
+  }
 }));
 
 export const NewEvents = () => {
@@ -232,9 +244,10 @@ export const NewEvents = () => {
 
       <div className={classes.eventsContainer}>
         <form onSubmit={handleSubmit(onSubmitForm)}>
-          <div>
-            <label htmlFor="eventName">Nome do Evento</label>
+          <div className={classes.formItemWrapper}>
+            <label className={classes.formItemLabel} htmlFor="eventName">Nome do Evento</label>
             <input
+              className={classes.formItemInput}
               type="text"
               id="eventName"
               {...register("eventName", {
@@ -245,9 +258,10 @@ export const NewEvents = () => {
             {errors.eventName?.type === "required" &&
               "Nome do evento necessário!"}
           </div>
-          <div>
-            <label htmlFor="eventDescription">Descrição do Evento</label>
+          <div className={classes.formItemWrapper}>
+            <label className={classes.formItemLabel} htmlFor="eventDescription">Descrição do Evento</label>
             <textarea
+              className={classes.formItemInput}
               id="eventDescription"
               {...register("eventDescription", {
                 required: true,
