@@ -104,6 +104,12 @@ export const Admin = () => {
   }
 
   useEffect(() => {
+    const auth = window.sessionStorage.getItem("auth");
+
+    if (!auth) {
+      window.location.href = "/login"
+    }
+
     getEventList()
   }, [])
 

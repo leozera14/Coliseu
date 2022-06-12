@@ -11,6 +11,7 @@ import {
   Footer,
   Admin,
   NewEvents,
+  Login
 } from "../pages/index";
 import { useTheme } from "../hooks/theme/useTheme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -52,6 +53,7 @@ export const mainRoutes = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/admin/newevent" element={<NewEvents />} >
                 <Route path=":eventId" element={<NewEvents />}/>
               </Route>
