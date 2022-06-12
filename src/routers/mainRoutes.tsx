@@ -52,7 +52,9 @@ export const mainRoutes = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/newevent" element={<NewEvents />} />
+              <Route path="/admin/newevent" element={<NewEvents />} >
+                <Route path=":eventId" element={<NewEvents />}/>
+              </Route>
               <Route path="/ambientes" element={<Environments />} />
               <Route path="/festas" element={<Parties />} />
               <Route path="/reservas" element={<Reservations />} />

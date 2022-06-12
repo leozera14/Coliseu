@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Typography, Button } from "@mui/material";
 
@@ -76,8 +76,11 @@ const useStyles: any = makeStyles(() => ({
 export const NewEvents = () => {
   const classes = useStyles();
 
+  const {eventId} = useParams()
+
   const navigate = useNavigate();
 
+  //States
   const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
   const [isDeletingImage, setIsDeletingImage] = useState<boolean>(false);
 
@@ -88,14 +91,7 @@ export const NewEvents = () => {
 
   const [imgurImageInfos, setImgurImageInfos] = useState<IImageImgur | null >(null)
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm();
-
+  //Functions for handle image file
   const handleFile = async (fileAccepted?: any, fileRejected?: any) => {
     try {
       if (fileRejected) {
@@ -166,6 +162,15 @@ export const NewEvents = () => {
     onDrop,
   });
 
+  // Form usage and functions
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
   const onSubmitForm = async (data: any) => {
     try {
       const { eventName, eventDescription } = data;
@@ -176,17 +181,34 @@ export const NewEvents = () => {
         ...imgurImageInfos
       };
 
-      await api()
-        .post("/events/create", objectCreateEvent)
-        .then((res: any) => {
-          const { data } = res;
+      if(eventId) {
+        await api().put(`/events/${eventId}`, objectCreateEvent)
+        .then((response: any) => {
+          const { status, data } = response;
 
-          if (res.status === 200) {
+          if (status === 200) {
             toast.success(data.message);
             navigate('/admin')
           }
-        });
+        })
+      } else {
+        await api()
+        .post("/events/create", objectCreateEvent)
+        .then((response: any) => {
+          const { status, data } = response;
+
+          if (status === 200) {
+            toast.success(data.message);
+            navigate('/admin')
+          }
+      });
+      }
+
+     
     } catch (error) {
+      eventId 
+      ? toast.error("Erro ao editar evento, por favor tente novamente mais tarde!") 
+      : toast.error("Erro ao criar evento, por favor tente novamente mais tarde!")
       console.log(error);
     }
   };
@@ -219,12 +241,57 @@ export const NewEvents = () => {
   };
 
   const title = watch('eventName');
+
   const description = watch('eventDescription')
 
+  const fetchEventAndSetValues = async () => {
+    try {
+      if(eventId) {
+        setIsUploadingImage(true)
+
+        await api().get(`/events/${eventId}`)
+        .then((response:any) => {
+          const {status, data} = response;
+
+          if(status === 200) {
+            let eventInfos: any = {
+              eventName: data.title,
+              eventDescription: data.description
+            }
+  
+            let imgurInfos: IImageImgur = {
+              image_hash: data.imgur_id,
+              image_delete_hash: data.imgur_delete_hash,
+              image_link: data.imgur_link,
+            }
+
+            Object.entries(eventInfos).forEach(([name,value]:any) => setValue(name,value))
+            setPreviewImageSelectedWithUpload(data.imgur_link)
+            setImgurImageInfos(imgurInfos)
+            setIsUploadingImage(false)
+          }
+        })
+        .catch((error:any) => {
+          if(error.response.status === 404) {
+            toast.error(error.response.data.message);
+          }
+          setIsUploadingImage(false)
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      setIsUploadingImage(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchEventAndSetValues()
+  }, [eventId])
+
+  //Verifications
   const disableButtons = isUploadingImage || isDeletingImage || isSubmitting;
 
-  const canSubmit = Boolean(!disableButtons && title && description && fastPreviewImageSelected)
-
+  const canSubmit = Boolean(!disableButtons && title && description && (fastPreviewImageSelected || previewImageSelectedWithUpload))
 
   return (
     <div className={classes.container}>
@@ -280,7 +347,7 @@ export const NewEvents = () => {
             {isUploadingImage ||
             (isDeletingImage && !fastPreviewImageSelected) ? (
               <LoadingSpinner />
-            ) : fastPreviewImageSelected ? (
+            ) : fastPreviewImageSelected || previewImageSelectedWithUpload  ? (
               <>
                 {isUploadingImage || (isDeletingImage && <LoadingSpinner />)}
 
@@ -318,7 +385,7 @@ export const NewEvents = () => {
           </div>
 
           <Button variant="outlined" type="submit" disabled={!canSubmit}>
-            Criar
+            {eventId ? "Editar" : "Criar"}
           </Button>
         </form>
       </div>
