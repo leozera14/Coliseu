@@ -1,14 +1,9 @@
 import { useMediaQuery } from "@mui/material";
-
 import Carousel from "react-material-ui-carousel";
-
 import { makeStyles } from "@material-ui/styles";
-
 import { useTheme } from "@mui/material/styles";
-
-// Images
-import test1 from "../../assets/test1.gif";
-import test2 from "../../assets/test2.jpg";
+import { useEffect, useState } from "react";
+import { api } from "../../services/api";
 
 const useStyles: any = makeStyles(() => ({
   image: {
@@ -20,23 +15,23 @@ const useStyles: any = makeStyles(() => ({
   },
 }));
 
+interface images {
+  description: string,
+  id: number,
+  imgur_link: string,
+  title: string
+}
+
 export const Home = () => {
   const classes = useStyles();
+  const [images, setImages] = useState([] as images[]);
 
-  var images = [
-    {
-      title: "Image 1",
-      description: "This is a image",
-      image: `${test1}`,
-      imageMobile: test2,
-    },
-    {
-      title: "Image 2",
-      description: "This is a image 2",
-      image: `${test2}`,
-      imageMobile: test1,
-    },
-  ];
+  useEffect(() => {
+    (async ()=> {
+      const response = await api().get("/events/list");
+      setImages(response.data);
+    })()
+  }, [])
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -48,16 +43,16 @@ export const Home = () => {
         stopAutoPlayOnHover={false}
         navButtonsAlwaysVisible={true}
       >
-        {images.map((image, i) => (
+        {images.length > 0 && images.map((image, i) => (
           <div key={i} className={classes.container}>
             <img
-              src={isMobile ? image.imageMobile : image.image}
+              src={isMobile ? image.imgur_link : image.imgur_link}
               className={classes.image}
             />
-            <p style={{ position: "absolute", top: 0 }}>{image.description}</p>
+            {/* <p style={{ position: "absolute", top: 0 }}>{image.description}</p>
             <p style={{ position: "absolute", top: 20 }}>
               {isMobile ? "mobile" : "desktop"}
-            </p>
+            </p> */}
           </div>
         ))}
       </Carousel>

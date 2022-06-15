@@ -7,15 +7,19 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { api } from '../../services/api'
 
 export function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
+    const response = await api().post("/user/login", {
+      username: data.get('email'),
       password: data.get('password'),
     });
+
+    window.sessionStorage.setItem("auth", response.data.access_token);
+    window.location.href = "/admin"
   };
 
   return (

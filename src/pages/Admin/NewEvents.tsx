@@ -124,6 +124,7 @@ export const NewEvents = () => {
           .post("/image/upload", imageFormData, {
             headers: {
               "Content-Type": "multipart/form-data",
+              "Authorization": `Bearer ${window.sessionStorage.getItem("auth")}`
             },
           })
           .then((res: any) => {
