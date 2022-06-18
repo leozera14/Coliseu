@@ -18,7 +18,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 const useStyles: any = makeStyles(() => ({
   link: {
     textDecoration: "none",
-    color: "#fff",
     transition: "all 200ms ease",
     fontSize: "18px",
     "&:hover": {

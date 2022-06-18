@@ -17,6 +17,7 @@ import { useTheme } from "../hooks/theme/useTheme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Header } from "../components";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 import { makeStyles } from "@material-ui/styles";
 const useStyles: any = makeStyles(() => ({
@@ -52,10 +53,10 @@ export const mainRoutes = () => {
           <div className={classes.routeWrapper}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/admin/newevent" element={<NewEvents />} >
-                <Route path=":eventId" element={<NewEvents />}/>
+              <Route path="/admin/newevent" element={<ProtectedRoute element={<NewEvents />} />} >
+                <Route path=":eventId" element={<ProtectedRoute element={<NewEvents />} />}/>
               </Route>
               <Route path="/ambientes" element={<Environments />} />
               <Route path="/festas" element={<Parties />} />
