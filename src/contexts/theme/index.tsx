@@ -1,22 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 
-export const ThemeContext = createContext({} as any);
+interface ITheme {
+  dark: boolean;
+  setDark: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const ThemeContext = createContext({} as ITheme);
 
 export const ThemeProvider: any = (props: any) => {
   const { children } = props;
 
   const [dark, setDark] = useState(true);
-
-  const changeThemeMode = () => {
-    setDark(!dark);
-  };
+  
+  const themeProviderValue = useMemo(() => 
+  ({
+    dark,
+    setDark
+  }), [dark, setDark])
 
   return (
     <ThemeContext.Provider
-      value={{
-        dark,
-        changeThemeMode,
-      }}
+      value={themeProviderValue}
     >
       {children}
     </ThemeContext.Provider>

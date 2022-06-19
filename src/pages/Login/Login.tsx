@@ -8,18 +8,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { api } from '../../services/api'
+import { toast } from 'react-toastify';
 
 export function Login() {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const response = await api().post("/user/login", {
-      username: data.get('email'),
-      password: data.get('password'),
-    });
+  const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1)
 
-    window.sessionStorage.setItem("auth", response.data.access_token);
-    window.location.href = "/admin"
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      await api()
+      .post("/user/login", {
+        username: data.get('user'),
+        password: data.get('password'),
+      })
+      .then((response) => {
+        const { data, status } = response 
+
+        if(status === 200) {
+          window.localStorage.setItem('username', capitalizeFirstLetter(data.user))
+          window.localStorage.setItem('auth', data.access_token)
+          toast.success('Login efetuado, você será redirecionado...')
+
+          setTimeout(() => {
+            window.location.href = "/admin"
+          }, 750)
+        }
+      })
+    } catch (error: any) {
+      if(error.response.status === 400) toast.error(error.response.data)
+    }
   };
 
   return (
@@ -44,10 +62,10 @@ export function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="user"
+              label="Username"
+              name="user"
+              autoComplete="user"
               autoFocus
             />
             <TextField

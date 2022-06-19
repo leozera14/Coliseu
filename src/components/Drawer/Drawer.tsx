@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
+import { handleLogout } from "../../utils/handleLogout";
+
 const useStyles: any = makeStyles(() => ({
   link: {
     textDecoration: "none",
@@ -30,16 +32,43 @@ const useStyles: any = makeStyles(() => ({
   drawerListItems: {
     width: "250px",
   },
+  logout: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: '0',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+    cursor: 'pointer'
+  }
 }));
 
 export const DrawerComponent = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const username = window.localStorage.getItem('username')
+  const token = window.localStorage.getItem('auth')
+
+  const verifyUserAndToken = username && token
   return (
     <>
       <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <List className={classes.drawerListItems}>
+          {verifyUserAndToken && (
+            <>
+              <ListItem style={{paddingTop: '12px', paddingBottom: '12px'}}>
+                <ListItemText>
+                  Bem vindo, {username}
+                </ListItemText>
+              </ListItem>
+              <Divider />
+            </>
+          )}
+         
+
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
               <Link
@@ -152,6 +181,13 @@ export const DrawerComponent = () => {
             </ListItemText>
           </ListItem>
         </List>
+        {verifyUserAndToken && (
+            <div onClick={handleLogout} className={classes.logout}>
+              <Typography component="p" fontWeight='bold' fontSize="18px">
+                Sair
+              </Typography>
+            </div>
+          )}
       </Drawer>
       <IconButton
         onClick={() => setOpenDrawer(!openDrawer)}

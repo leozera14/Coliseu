@@ -1,2 +1,3 @@
 export { Admin } from "./Admin";
-export { NewEvents } from "./NewEvents";
+export { NewEvents, EventsList } from './Events'
+export { AdminEnvironmentsList, AdminNewEnvironment } from './Environments'

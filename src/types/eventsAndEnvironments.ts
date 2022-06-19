@@ -1,6 +1,5 @@
-export interface IEvents {
+export interface IEventsEnvironments {
   id: number;
   title: string;
-  description: string;
   imgur_link: string
 }

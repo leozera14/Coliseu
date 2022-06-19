@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -12,11 +12,11 @@ import { makeStyles } from "@mui/styles";
 
 import { toast } from "react-toastify";
 
-import { api } from "../../services/api";
+import { api } from "../../../services/api";
 
-import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { LoadingSpinner } from "../../../components/LoadingSpinner";
 
-import { IImageImgur } from "../../types";
+import { IImageImgur } from "../../../types";
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -69,7 +69,18 @@ const useStyles: any = makeStyles(() => ({
   },
   formItemInput: {
     width: "100%",
-    minHeight: "36px"
+    minHeight: "40px",
+    padding: ".375rem .75rem",
+    border: "1px solid #ced4da",
+    borderRadius: ".25rem"
+  },
+  formItemTextArea: {
+    width: "100%",
+    minHeight: "64px",
+    maxWidth: "100%",
+    padding: ".375rem .75rem",
+    border: "1px solid #ced4da",
+    borderRadius: ".25rem"
   }
 }));
 
@@ -174,11 +185,10 @@ export const NewEvents = () => {
 
   const onSubmitForm = async (data: any) => {
     try {
-      const { eventName, eventDescription } = data;
+      const { eventName } = data;
 
       const objectCreateEvent = {
         title: eventName,
-        description: eventDescription,
         ...imgurImageInfos
       };
 
@@ -189,7 +199,7 @@ export const NewEvents = () => {
 
           if (status === 200) {
             toast.success(data.message);
-            navigate('/admin')
+            navigate('/admin/events')
           }
         })
       } else {
@@ -200,12 +210,10 @@ export const NewEvents = () => {
 
           if (status === 200) {
             toast.success(data.message);
-            navigate('/admin')
+            navigate('/admin/events')
           }
       });
       }
-
-     
     } catch (error) {
       eventId 
       ? toast.error("Erro ao editar evento, por favor tente novamente mais tarde!") 
@@ -243,8 +251,6 @@ export const NewEvents = () => {
 
   const title = watch('eventName');
 
-  const description = watch('eventDescription')
-
   const fetchEventAndSetValues = async () => {
     try {
       if(eventId) {
@@ -255,18 +261,13 @@ export const NewEvents = () => {
           const {status, data} = response;
 
           if(status === 200) {
-            let eventInfos: any = {
-              eventName: data.title,
-              eventDescription: data.description
-            }
-  
             let imgurInfos: IImageImgur = {
               image_hash: data.imgur_id,
               image_delete_hash: data.imgur_delete_hash,
               image_link: data.imgur_link,
             }
 
-            Object.entries(eventInfos).forEach(([name,value]:any) => setValue(name,value))
+            setValue('eventName', data.title)
             setPreviewImageSelectedWithUpload(data.imgur_link)
             setImgurImageInfos(imgurInfos)
             setIsUploadingImage(false)
@@ -292,7 +293,7 @@ export const NewEvents = () => {
   //Verifications
   const disableButtons = isUploadingImage || isDeletingImage || isSubmitting;
 
-  const canSubmit = Boolean(!disableButtons && title && description && (fastPreviewImageSelected || previewImageSelectedWithUpload))
+  const canSubmit = Boolean(!disableButtons && title && (fastPreviewImageSelected || previewImageSelectedWithUpload))
 
   return (
     <div className={classes.container}>
@@ -306,7 +307,7 @@ export const NewEvents = () => {
             fontStyle: "italic",
           }}
         >
-          Novo evento
+          {eventId ? 'Editar evento' : 'Novo evento'}
         </Typography>
       </div>
 
@@ -324,19 +325,6 @@ export const NewEvents = () => {
               placeholder="Digite o nome do Evento"
             />
             {errors.eventName?.type === "required" &&
-              "Nome do evento necessário!"}
-          </div>
-          <div className={classes.formItemWrapper}>
-            <label className={classes.formItemLabel} htmlFor="eventDescription">Descrição do Evento</label>
-            <textarea
-              className={classes.formItemInput}
-              id="eventDescription"
-              {...register("eventDescription", {
-                required: true,
-              })}
-              placeholder="Digite a Descrição do Evento"
-            />
-            {errors.eventDescription?.type === "required" &&
               "Nome do evento necessário!"}
           </div>
 
@@ -366,7 +354,7 @@ export const NewEvents = () => {
                 />
 
                 <Button onClick={removeImage} disabled={disableButtons}>
-                  Remove image
+                  Remover imagem
                 </Button>
               </>
             ) : (
@@ -376,9 +364,9 @@ export const NewEvents = () => {
                   <p>Drag files here</p>
                 </div>
 
-                <div>
+                <div style={{margin: '10px 0'}}>
                   <Button onClick={open} disabled={disableButtons}>
-                    Upload image
+                    Escolher imagem
                   </Button>
                 </div>
               </>

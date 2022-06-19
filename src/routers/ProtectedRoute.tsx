@@ -5,7 +5,7 @@ export function ProtectedRoute({element}: {element: JSX.Element}) {
   const token = window?.localStorage?.getItem('auth')  
   
   if(!token) {
-    return <Navigate to={{pathname: '/'}}/>
+    return <Navigate to={{pathname: '/login'}}/>
   }
 
   return element
