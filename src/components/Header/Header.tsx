@@ -15,7 +15,6 @@ import { useThemeHook } from '../../hooks';
 import { handleLogout } from "../../utils/handleLogout";
 
 //Images
-import Logo from "../../assets/logo.png";
 import BlackLogo from "../../assets/logo_black.png"
 import WhiteLogo from "../../assets/logo_white.png"
 
@@ -73,7 +72,7 @@ const useStyles: any = makeStyles((theme: any) => ({
 export const Header = () => {
   const { dark, setDark } = useThemeHook();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useMediaQuery(theme.breakpoints.between("xs", "md"));
   const classes = useStyles();
 
   const username = window.localStorage.getItem('username')

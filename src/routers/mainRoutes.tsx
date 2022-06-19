@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import {
   Home,
   Doubts,
@@ -61,6 +61,8 @@ export const mainRoutes = () => {
         >
           <div className={classes.routeWrapper}>
             <Routes>
+              <Route path="*" element={<Navigate to="/" replace />} />
+
               <Route path="/" element={<Home />} />
 
               <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />

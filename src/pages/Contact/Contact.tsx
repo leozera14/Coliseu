@@ -1,6 +1,8 @@
 import { makeStyles } from "@material-ui/styles";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import { useRef, useCallback } from 'react';
+
+import { useTheme } from "@mui/material/styles";
 
 import Mapa from "../../assets/map.png";
 
@@ -16,7 +18,6 @@ const useStyles: any = makeStyles(() => ({
   },
   wrapper: {
     display: "flex",
-    flexWrap: "wrap",
   },
   itemContainer: {
     padding: "16px",
@@ -39,6 +40,9 @@ export const Contact = () => {
   const isMountedRef = useRef(true)
   const isMounted = useCallback(() => isMountedRef.current, [])
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.between("xs", "md"));
+
   const classes = useStyles();
 
   const mapaLink = "https://www.google.com/maps/place/Coliseu+Fantasy+Club/@-29.7740092,-51.1547494,19z/data=!3m1!4b1!4m5!3m4!1s0x951969b46ba9ae03:0xc7972bfec2a4ced8!8m2!3d-29.7740054!4d-51.154128"
@@ -60,7 +64,7 @@ export const Contact = () => {
         </Typography>
       </div>
 
-      <section className={classes.wrapper}>
+      <section className={classes.wrapper} style={{flexDirection: isMobile ? "column" : "row"}}>
         <div className={classes.itemContainer}>
           <Typography
             variant="h2"
@@ -202,6 +206,7 @@ export const Contact = () => {
               src={Mapa}
               alt="Mapa Coliseu Fantasy Club"
               className={classes.image}
+              style={{maxWidth: isMobile ? '100%' : ''}}
             />
           </a>
         </div>

@@ -33,9 +33,6 @@ export const Home = () => {
     })()
   }, [])
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
   return (
     <>
       <Carousel
@@ -46,13 +43,9 @@ export const Home = () => {
         {images.length > 0 && images.map((image, i) => (
           <div key={i} className={classes.container}>
             <img
-              src={isMobile ? image.imgur_link : image.imgur_link}
+              src={image.imgur_link}
               className={classes.image}
             />
-            {/* <p style={{ position: "absolute", top: 0 }}>{image.description}</p>
-            <p style={{ position: "absolute", top: 20 }}>
-              {isMobile ? "mobile" : "desktop"}
-            </p> */}
           </div>
         ))}
       </Carousel>
