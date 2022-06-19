@@ -1,37 +1,8 @@
 import { makeStyles } from "@material-ui/styles";
 import { Typography } from "@mui/material";
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import { Loader } from '@googlemaps/js-api-loader';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 
-// const loader = new Loader({
-//   apiKey: "",
-//   version: "weekly",
-//   libraries: ["places"]
-// });
-
-// const mapOptions = {
-//   center: {
-//     lat: -29.773984533363166,
-//     lng: -51.153980846393196
-//   },
-//   zoom: 4
-// };
-
-// const renderMap = () => {
-//   const element = document.getElementById("map")
-
-//   if (element) {
-//     loader
-//     .load()
-//     .then((google) => {
-//       new google.maps.Map(element, mapOptions);
-//     })
-//     .catch((e) => {
-//       console.log(e)
-//     });
-//   }
-// }
+import Mapa from "../../assets/map.png";
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -51,7 +22,6 @@ const useStyles: any = makeStyles(() => ({
     padding: "16px",
     display: "flex",
     flexWrap: "wrap",
-    // width: "calc(50vw - 16px)",
     maxWidth: "50vw",
     flexGrow: 1,
     alignContent: "baseline",
@@ -65,40 +35,14 @@ const useStyles: any = makeStyles(() => ({
   }
 }));
 
-const containerStyle = {
-  width: '400px',
-  height: '400px'
-};
-
-const center: google.maps.LatLngLiteral = {
-  lat: -29.773984533363166,
-  lng: -51.153980846393196
-};
-
-const mapsOptions = {
-  center: center,
-  zoom: 10
-}
-
-import Mapa from "../../assets/map.png";
-
-const mapaLink = "https://www.google.com/maps/place/Coliseu+Fantasy+Club/@-29.7740092,-51.1547494,19z/data=!3m1!4b1!4m5!3m4!1s0x951969b46ba9ae03:0xc7972bfec2a4ced8!8m2!3d-29.7740054!4d-51.154128"
-
 export const Contact = () => {
   const isMountedRef = useRef(true)
   const isMounted = useCallback(() => isMountedRef.current, [])
 
   const classes = useStyles();
 
-  // useEffect(() => {
-    
-  //   if(isMounted()) {
-  //     renderMap()
-  //   }
-  //   return () => {
-  //     isMountedRef.current = false
-  //   }
-  // }, []);
+  const mapaLink = "https://www.google.com/maps/place/Coliseu+Fantasy+Club/@-29.7740092,-51.1547494,19z/data=!3m1!4b1!4m5!3m4!1s0x951969b46ba9ae03:0xc7972bfec2a4ced8!8m2!3d-29.7740054!4d-51.154128"
+
 
   return (
     <div className={classes.container}>
@@ -253,8 +197,6 @@ export const Contact = () => {
             Veja no mapa
           </Typography>
 
-          {/* <div id="map"></div> */}
-
           <a href={mapaLink} target="_blank">
             <img
               src={Mapa}
@@ -262,20 +204,6 @@ export const Contact = () => {
               className={classes.image}
             />
           </a>
-
-          {/* <LoadScript
-            googleMapsApiKey="AIzaSyCYtbIyj-nbc_3M4hMH6HegFWQa82b31Bo"
-          >
-            <GoogleMap
-              options={mapsOptions}
-              id='coliseu'
-              mapContainerStyle={containerStyle}
-              center={center}
-              zoom={5}
-            >
-              <></>
-            </GoogleMap>
-          </LoadScript> */}
         </div>
       </section>
 
