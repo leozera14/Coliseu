@@ -1,3 +1,3 @@
-import { useTheme } from "./theme/useTheme";
+import { useThemeHook } from "./theme/useTheme";
 
-export { useTheme };
+export { useThemeHook };

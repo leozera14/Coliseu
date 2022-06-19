@@ -1,9 +1,8 @@
 import { Grid, Typography } from "@mui/material";
-// import { useTheme } from "../hooks/theme/useTheme";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { useThemeHook } from "../../hooks/theme/useTheme";
 
 export const Footer = () => {
-  const { dark } = useTheme();
+  const { dark } = useThemeHook();
 
   return (
     <>

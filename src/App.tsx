@@ -4,8 +4,9 @@ import { Grid } from "@mui/material";
 
 import { makeStyles } from "@material-ui/styles";
 
-import { useTheme as useThemeHook } from "./hooks/theme/useTheme";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles: any = makeStyles(() => ({
   containerFull: {
@@ -23,7 +24,6 @@ const useStyles: any = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
-  const { dark, changeThemeMode } = useThemeHook();
 
   return (
     <ThemeProvider>
@@ -40,7 +40,18 @@ function App() {
             },
           }}
         >
-          <Routes/>
+          <Routes />
+          <ToastContainer
+            limit={4}
+            position="top-right"
+            autoClose={3500}
+            newestOnTop
+            hideProgressBar={false}
+            closeOnClick
+            draggable
+            pauseOnHover={false}
+            theme="colored"
+          />
         </Grid>
       </Grid>
     </ThemeProvider>

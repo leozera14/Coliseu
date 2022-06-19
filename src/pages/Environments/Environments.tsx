@@ -1,67 +1,61 @@
+//React
+import {useState, useEffect} from 'react'
+
+//Services
+import { api } from '../../services/api';
+
+//Components
 import { Box, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
-
 import { ImagesList } from "../../components";
+import { toast } from 'react-toastify';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
-import test1 from "../../assets/test1.gif";
-import test2 from "../../assets/test2.jpg";
-import test3 from "../../assets/test3.gif";
+
+//Types
+import { IEventsEnvironments } from '../../types/index'
 
 const useStyles: any = makeStyles(() => ({
   container: {
-    // height: "calc(100vh - 110px)",
     padding: "32px 0",
-    // overflowY: "scroll"
   },
+  loading: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 }));
 
 export const Environments = () => {
+  const [environments, setEnvironments] = useState<IEventsEnvironments[]>([])
+  const [isLoadingEnvironments, setIsLoadingEnvironments] = useState<boolean | any>(false);
+
   const classes = useStyles();
 
-  var images = [
-    {
-      title: "Image 1",
-      description: "This is a image",
-      image: `${test1}`,
-    },
-    {
-      title: "Image 2",
-      description: "This is a image 2",
-      image: `${test2}`,
-    },
-    {
-      title: "Image 3",
-      description: "This is a image 3",
-      image: `${test3}`,
-    },
-    {
-      title: "Image 4",
-      description: "This is a image 4",
-      image: `${test2}`,
-    },
-    {
-      title: "Image 5",
-      description: "This is a image 5",
-      image: `${test1}`,
-    },
-    {
-      title: "Image 6",
-      description: "This is a image 6",
-      image: `${test3}`,
-    },
+  const getEnvironmentsList = async() => {
+    setIsLoadingEnvironments(true)
 
-    {
-      title: "Image 7",
-      description: "This is a image 7",
-      image: `${test2}`,
-    },
+    await api().get("/environments/list").then((response: any) => {
 
-    {
-      title: "Image 8",
-      description: "This is a image 8",
-      image: `${test3}`,
-    },
-  ];
+      if(response.status === 200 && response.data) {
+        setIsLoadingEnvironments(false)
+
+        const {data} = response;
+
+        setEnvironments(data)
+      }
+      
+    }).catch((error: any) => {
+      console.log(error)
+      toast.error(error)
+      setIsLoadingEnvironments(false)
+    })
+  }
+
+  useEffect(() => {
+    getEnvironmentsList()
+  }, [])
 
   return (
     <>
@@ -85,7 +79,15 @@ export const Environments = () => {
         >
           Os ambientes mais excitantes
         </Typography>
-        <ImagesList images={images} />
+
+        {isLoadingEnvironments && 
+        <div className={classes.loading}>
+          <LoadingSpinner />
+        </div>
+        }
+        {!isLoadingEnvironments && environments &&
+          <ImagesList images={environments} edit={false} />
+        }
       </Box>
     </>
   );
