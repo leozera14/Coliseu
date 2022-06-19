@@ -16,6 +16,8 @@ import { handleLogout } from "../../utils/handleLogout";
 
 //Images
 import Logo from "../../assets/logo.png";
+import BlackLogo from "../../assets/logo_black.png"
+import WhiteLogo from "../../assets/logo_white.png"
 
 const useStyles: any = makeStyles((theme: any) => ({
   wrapper: {
@@ -95,7 +97,7 @@ export const Header = () => {
               <img
                 alt="SWINGAO"
                 height="60"
-                src={Logo}
+                src={!dark ? BlackLogo : WhiteLogo}
                 className={classes.logoImage}
               />
             </Box>
@@ -122,7 +124,7 @@ export const Header = () => {
               <img
                 alt="SWINGAO"
                 height="60"
-                src={Logo}
+                src={!dark ? BlackLogo : WhiteLogo}
                 className={classes.logoImage}
               />
             </Box>
