@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, useMemo } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Typography, Button } from "@mui/material";
 
@@ -17,6 +17,7 @@ import { api } from "../../../services/api";
 import { LoadingSpinner } from "../../../components/LoadingSpinner";
 
 import { IImageImgur } from "../../../types";
+import { ArrowBack } from "@mui/icons-material";
 
 const useStyles: any = makeStyles(() => ({
   container: {
@@ -109,11 +110,11 @@ export const AdminNewEnvironment = () => {
         fileRejected?.map((file: any) => {
           file?.errors?.map((errors: any) => {
             if (errors?.code === "file-invalid-type") {
-              toast.error(`${errors?.message}`);
+              toast.error("Tipo de arquivo invalido, verifique e tente novamente!");
             }
 
             if (errors?.code === "file-too-large") {
-              toast.error("File is larger than 10 MB");
+              toast.error("Arquivo maior que 10MB, verifique e tente novamente!");
             }
 
             return;
@@ -145,16 +146,16 @@ export const AdminNewEnvironment = () => {
               setIsUploadingImage(false);
               setImgurImageInfos(data)
               setPreviewImageSelectedWithUpload(data.image_link);
-              toast.success("Image upload successfully!");
+              toast.success("Upload de imagem bem sucedido!");
             } else {
               setIsUploadingImage(false);
-              toast.error("Image upload failed, try again...");
+              toast.error("Falha ao subir a imagem, tente novamente mais tarde!");
             }
           });
       }
     } catch (error) {
       setIsUploadingImage(false);
-      toast.error("Image upload failed, try again...");
+      toast.error("Falha ao subir a imagem, tente novamente mais tarde!");
     }
   };
 
@@ -298,6 +299,16 @@ export const AdminNewEnvironment = () => {
   return (
     <div className={classes.container}>
       <div className={classes.headerWrapper}>
+        <Link
+          to="/admin/environments"
+          style={{ textDecoration: "none", color: "inherit", position: 'absolute', left: '15px' }}
+        >
+          <Button startIcon={<ArrowBack />}>
+            Voltar
+          </Button>
+        </Link>
+      
+
         <Typography
           variant="h1"
           sx={{

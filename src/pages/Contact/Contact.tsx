@@ -23,7 +23,6 @@ const useStyles: any = makeStyles(() => ({
     padding: "16px",
     display: "flex",
     flexWrap: "wrap",
-    maxWidth: "50vw",
     flexGrow: 1,
     alignContent: "baseline",
 
@@ -46,7 +45,6 @@ export const Contact = () => {
   const classes = useStyles();
 
   const mapaLink = import.meta.env.VITE_MAP_URL;
-  console.log(mapaLink)
 
   return (
     <div className={classes.container}>
@@ -65,7 +63,7 @@ export const Contact = () => {
       </div>
 
       <section className={classes.wrapper} style={{flexDirection: isMobile ? "column" : "row"}}>
-        <div className={classes.itemContainer}>
+        <div className={classes.itemContainer} style={{maxWidth: isMobile ? '100%' : '50%'}}>
           <Typography
             variant="h2"
             sx={{
@@ -187,7 +185,7 @@ export const Contact = () => {
 
         </div>
 
-        <div className={classes.itemContainer}>
+        <div className={classes.itemContainer} style={{maxWidth: isMobile ? '100%' : '50%'}}>
         <Typography
             variant="h2"
             sx={{
@@ -208,7 +206,7 @@ export const Contact = () => {
               src={Mapa}
               alt="Mapa Coliseu Fantasy Club"
               className={classes.image}
-              style={{maxWidth: isMobile ? '100%' : ''}}
+              style={{maxWidth: '100%'}}
             />
           </a>
         </div>
