@@ -1,4 +1,4 @@
-import { Grid, ImageList, ImageListItem, useMediaQuery, Button } from "@mui/material";
+import { Grid, ImageList, ImageListItem, useMediaQuery, Button, Typography } from "@mui/material";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -50,8 +50,7 @@ const useStyles: any = makeStyles(() => ({
   },
   eventLabel: {
     textAlign: 'center',
-    fontWeight: 500,
-    marginBottom: "20px",
+    marginBottom: "20px !important",
   },
   eventActions: {
     marginTop: "20px",
@@ -83,7 +82,7 @@ export const ImagesList = (props: IImagesListProps) => {
             {images.map((images: IEventsEnvironments, i:number) => (
               <ImageListItem key={i}>
                 <div className={classes.eventWrapper} key={images.id}>
-                  <p className={classes.eventLabel}> {images.title} </p>
+                  <Typography component="p" className={classes.eventLabel} style={{fontWeight: 500}}> {images.title} </Typography>
                   <img
                     className={classes.eventImage}
                     src={images.imgur_link}
@@ -116,7 +115,7 @@ export const ImagesList = (props: IImagesListProps) => {
           >
           {images.map((images: IEventsEnvironments, i: number) => (
             <ImageListItem key={i} className={classes.imageListItem}>
-              
+              <Typography component="p" className={classes.eventLabel} style={{fontWeight: 500}}> {images.title} </Typography>
               <img
                 src={images.imgur_link}
                 alt={images.title}

@@ -371,7 +371,7 @@ export const NewEvents = () => {
               <>
                 <div>
                   <input {...getInputProps()} disabled={disableButtons} />
-                  <p>Drag files here</p>
+                  <p>Arraste a imagem aqui</p>
                 </div>
 
                 <div style={{margin: '10px 0'}}>
